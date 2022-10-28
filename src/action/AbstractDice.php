@@ -1,52 +1,67 @@
 <?php namespace action;
 
-   class AbstractDice{
-    protected $amountOfSides;
-    protected $minimumResult;
-    protected $actualValue;
+//AbstractDiceClass cannot be instancied
+  abstract class AbstractDice{
+  //Attributes 
+    protected $amountOfFaces; //Amount of sides of the dice (Max Result)
+    protected $lowestFace; //Lowest value permited in this dice (Min Result)
+    protected $faceUp; //The side side facing up (The Result)
 
+  //Constructor of a basic dice 
     public function __construct(
-      int $amountOfSides = 20,
-      int $minimumResult = 1,
+      int $amountOfFaces = 20, //Default dice set as D20
+      int $lowestFace = 1, //All d20s start with 1
+      
     ){
-      $this->amountOfSides = $amountOfSides;
-      $this->minimumResult = $minimumResult;
+      $this->amountOfFaces = $amountOfFaces;
+      $this->lowestFace = $lowestFace;
     }
 
-    public function setAmountOfSides(int $amount){
-      $this->amountOfSides = $amount;
+  //Getters and Setters
+    public function setAmountOfFaces(int $amount){
+      $this->amountOfFaces = $amount;
     }
 
-    public function getAmountOfSides(){
-      return $this->amountOfSides;
+    public function getAmountOfFaces(){
+      return $this->amountOfFaces;
     }
 
-    private function setActualValue($value){
-      $this->actualValue = $value;
+    private function setFaceUp($face){
+      $this->faceUp = $face;
     }
-    public function getActualValue(){
-      return $this->actualValue;
-    }
-
-    protected function setMinimumResult($minimumResult){
-      $this->minimumResult = $minimumResult;
-    }
-    public function getMinimumResult(){
-      return $this->minimumResult;
+    public function getFaceUp(){
+      return $this->faceUp;
     }
 
+    protected function setLowestFace($lowestFace){
+      $this->lowestFace = $lowestFace;
+    }
+    public function getLowestFace(){
+      return $this->lowestFace;
+    }
+
+  //Roll Dice Function
     public function roll(){
-      if(empty ($this->getMinimumResult)){
-        $this->setMinimumResult(1);
+
+    //Checking if the lowestFace is set to avoid NULL values
+      if(empty ($this->getLowestFace)){
+        $this->setLowestFace(1);
       };
-      $roll = rand($this->minimumResult, $this->amountOfSides);
-      $this->setActualValue($roll);
-      return $this->getActualValue();
+    
+    //The Rand Function to draw the dice value
+      $roll = rand($this->lowestFace, $this->amountOfFaces);
+      $this->setFaceUp($roll); //Setting the result to faceUp
+
+    //Return the faceUp attribute
+      return $this->getFaceUp();
     }
     
   }
+
+//You can put test codes here
+
 /*
-  $d10 = new AbstractDice(amountOfSides:10);
+  $d10 = new AbstractDice(amountOfFaces:10);
   var_dump($d10->roll());*/
 
 
